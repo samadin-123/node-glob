@@ -1,1 +1,2 @@
 thesis	attempt	metric	baseline	status	summary
+#1	thesis/1-cache-pattern-globstring-computation	104185.5000	105953.5700	discarded	Pre-computing globString in constructor for index=0 patterns showed no performance improvement. Averaged 5 runs: optimized=104185.50 ops/sec vs baseline=105953.57 ops/sec. The lazy initialization pattern was already efficient.
