@@ -41,12 +41,10 @@ export class MatchRecord {
     this.store.set(target, current === undefined ? n : n & current)
   }
   // match, absolute, ifdir
-  entries(): [Path, boolean, boolean][] {
-    return [...this.store.entries()].map(([path, n]) => [
-      path,
-      !!(n & 2),
-      !!(n & 1),
-    ])
+  *entries(): Generator<[Path, boolean, boolean]> {
+    for (const [path, n] of this.store.entries()) {
+      yield [path, !!(n & 2), !!(n & 1)]
+    }
   }
 }
 
