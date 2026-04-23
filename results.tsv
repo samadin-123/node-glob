@@ -3,3 +3,4 @@ thesis	attempt	metric	baseline	status	summary
 #2	thesis/2-optimize-haswalkedcache-lookup-performance	98343.6000	105953.5700	discarded	Replacing nested Map with flat Map using composite keys showed 7% performance regression due to string concatenation overhead
 #3	thesis/3-reduce-allocations-in-matchrecord-entries	98858.4400	96763.9500	accepted	Converted MatchRecord.entries() to generator function, eliminating array allocation. 2.16% improvement.
 #9	thesis/9-pre-size-maps-in-processor-hot-path-to-reduce-rehashing	96481.0000	102261.0000	discarded	Pre-sizing Maps with dummy entries caused 5.7% regression. JS Maps don't expose capacity hints.
+#4	thesis/4-optimize-processor-pattern-matching-loops	108690.7600	104788.0400	accepted	Caching pattern properties (isAbsolute, pattern(), rest()) outside the inner loop in filterEntries() reduces redundant method calls. 10-run averages: optimized=108690.76 ops/sec vs baseline=104788.04 ops/sec (3.72% improvement).
