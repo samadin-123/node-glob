@@ -220,17 +220,27 @@ export class Processor {
     const patterns = this.subwalks.get(parent)
     // put matches and entry walks into the results processor
     const results = this.child()
+    // Cache pattern properties outside inner loop to avoid redundant method calls
+    const patternCache = patterns.map(pattern => {
+      const p = pattern.pattern()
+      return {
+        pattern,
+        absolute: pattern.isAbsolute(),
+        p,
+        rest: pattern.rest(),
+        isGlobstar: p === GLOBSTAR,
+        isRegExp: p instanceof RegExp,
+      }
+    })
     for (const e of entries) {
-      for (const pattern of patterns) {
-        const absolute = pattern.isAbsolute()
-        const p = pattern.pattern()
-        const rest = pattern.rest()
-        if (p === GLOBSTAR) {
+      for (const cached of patternCache) {
+        const { pattern, absolute, p, rest, isGlobstar, isRegExp } = cached
+        if (isGlobstar) {
           results.testGlobstar(e, pattern, rest, absolute)
-        } else if (p instanceof RegExp) {
-          results.testRegExp(e, p, rest, absolute)
+        } else if (isRegExp) {
+          results.testRegExp(e, p as MMRegExp, rest, absolute)
         } else {
-          results.testString(e, p, rest, absolute)
+          results.testString(e, p as string, rest, absolute)
         }
       }
     }
